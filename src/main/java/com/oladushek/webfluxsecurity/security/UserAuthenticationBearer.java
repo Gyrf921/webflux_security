@@ -20,7 +20,7 @@ public class UserAuthenticationBearer {
 
         List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(role));
 
-        Long principalId = Long.parseLong(claims.getId());
+        Long principalId = Long.parseLong(subject);
         CustomPrincipal principal = new CustomPrincipal(principalId, username);
 
         return Mono.justOrEmpty(new UsernamePasswordAuthenticationToken(principal, null, authorities));

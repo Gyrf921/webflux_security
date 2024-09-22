@@ -1,11 +1,10 @@
-package com.oladushek.webfluxsecurity.rest;
+package com.oladushek.webfluxsecurity.web;
 
-import com.oladushek.webfluxsecurity.dto.AuthRequestDto;
-import com.oladushek.webfluxsecurity.dto.AuthResponseDto;
-import com.oladushek.webfluxsecurity.dto.UserDto;
+import com.oladushek.webfluxsecurity.web.dto.AuthRequestDto;
+import com.oladushek.webfluxsecurity.web.dto.AuthResponseDto;
+import com.oladushek.webfluxsecurity.web.dto.UserDto;
 import com.oladushek.webfluxsecurity.entity.UserEntity;
 import com.oladushek.webfluxsecurity.mapper.UserMapper;
-import com.oladushek.webfluxsecurity.repository.UserRepository;
 import com.oladushek.webfluxsecurity.security.CustomPrincipal;
 import com.oladushek.webfluxsecurity.security.SecurityService;
 import com.oladushek.webfluxsecurity.service.UserService;

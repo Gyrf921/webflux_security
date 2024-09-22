@@ -1,4 +1,4 @@
-package com.oladushek.webfluxsecurity.dto;
+package com.oladushek.webfluxsecurity.web.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;

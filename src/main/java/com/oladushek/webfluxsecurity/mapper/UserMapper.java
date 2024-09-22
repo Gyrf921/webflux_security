@@ -1,6 +1,6 @@
 package com.oladushek.webfluxsecurity.mapper;
 
-import com.oladushek.webfluxsecurity.dto.UserDto;
+import com.oladushek.webfluxsecurity.web.dto.UserDto;
 import com.oladushek.webfluxsecurity.entity.UserEntity;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;

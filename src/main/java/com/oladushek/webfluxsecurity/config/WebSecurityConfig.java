@@ -1,15 +1,18 @@
 package com.oladushek.webfluxsecurity.config;
 
+
 import com.oladushek.webfluxsecurity.security.AuthenticationManager;
 import com.oladushek.webfluxsecurity.security.BearerTokenServerAuthenticationConverter;
 import com.oladushek.webfluxsecurity.security.JwtHandler;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
@@ -18,9 +21,10 @@ import org.springframework.security.web.server.util.matcher.ServerWebExchangeMat
 import reactor.core.publisher.Mono;
 
 @Slf4j
-@Configuration
 @EnableReactiveMethodSecurity
-public class WebSecurityConfig {
+@Configuration
+public class WebSecurityConfig{
+
     @Value("${jwt.secret}")
     private String secret;
 
@@ -28,7 +32,7 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http, AuthenticationManager authenticationManager) {
-        return http.csrf(csrf -> csrf.disable())
+        return http.csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(authorize -> authorize
                         .pathMatchers(HttpMethod.OPTIONS).permitAll()
                         .pathMatchers(publicRoutes).permitAll()
@@ -44,31 +48,9 @@ public class WebSecurityConfig {
                             return Mono.fromRunnable(() -> swe.getResponse().setStatusCode(HttpStatus.FORBIDDEN));
                         })
                 )
-                .addFilterAt(bearerAuthenticationFilter(authenticationManager), SecurityWebFiltersOrder.AUTHENTICATION).build();
-
-        /*
-        return http
-                .csrf(ServerHttpSecurity.CsrfSpec::disable)
-                .authorizeExchange()
-                .pathMatchers(HttpMethod.OPTIONS)
-                .permitAll()
-                .pathMatchers(publicRoutes)
-                .permitAll()
-                .anyExchange()
-                .authenticated()
-                .exceptionHandling()
-                .authenticationEntryPoint((swe , e) -> {
-                    log.error("IN securityWebFilterChain - unauthorized error: {}", e.getMessage());
-                    return Mono.fromRunnable(() -> swe.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED));
-                })
-                .accessDeniedHandler((swe, e) -> {
-                    log.error("IN securityWebFilterChain - access denied: {}", e.getMessage());
-
-                    return Mono.fromRunnable(() -> swe.getResponse().setStatusCode(HttpStatus.FORBIDDEN));
-                })
-                .and()
                 .addFilterAt(bearerAuthenticationFilter(authenticationManager), SecurityWebFiltersOrder.AUTHENTICATION)
-                .build(); */
+                .build();
+
     }
 
     private AuthenticationWebFilter bearerAuthenticationFilter(AuthenticationManager authenticationManager) {
